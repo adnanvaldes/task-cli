@@ -51,14 +51,20 @@ class Tasks {
     };
 
     updateTask(taskID, taskDescription) {
-        for (let task of this.taskList) {
-            if (taskID == task.id) {
-                task.task.description = taskDescription
-                task.task.updatedAt = new Date().toLocaleString()
+        for (let item of this.taskList) {
+            if (taskID == item.id) {
+                item.task.description = taskDescription
+                item.task.updatedAt = new Date().toLocaleString()
             };
             break;
         }
         this.updateTasksFile()
+    }
+
+    deleteTask(taskID) {
+        let newTaskList = this.taskList.filter(task => task.id !== taskID);
+        this.taskList = newTaskList;
+        this.updateTasksFile();
     }
 };
 
