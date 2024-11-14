@@ -1,0 +1,28 @@
+{
+  "name": "task-cli",
+  "version": "1.0.0",
+  "description": "A simple command-line task management app",
+  "type": "module",
+  "main": "task-cli/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adnanvaldes/task-cli.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "tasks",
+    "cli"
+  ],
+  "author": "Adnan Valdes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adnanvaldes/task-cli/issues"
+  },
+  "homepage": "https://github.com/adnanvaldes/task-cli#readme",
+  "bin": {
+    "task-cli": "./task-cli/index.mjs"
+  }
+}
