@@ -3,9 +3,9 @@ import fs from 'node:fs'
 
 class Tasks {
     constructor() {
-        this.taskPath = `${cwd()}/tasks.json`
-        this.taskList = this.readTasksFile()
-        this.utils = new Utils()
+        this.taskPath = `${cwd()}/tasks.json`;
+        this.taskList = this.readTasksFile();
+        this.utils = new Utils();
     };
     
     getOrCreateTaskList() {
@@ -20,18 +20,18 @@ class Tasks {
     };
 
     readTasksFile() {
-        const taskFile = this.getOrCreateTaskList()
-        const taskContent = fs.readFileSync(taskFile)
+        const taskFile = this.getOrCreateTaskList();
+        const taskContent = fs.readFileSync(taskFile);
         try {
             return taskContent ? JSON.parse(taskContent) : [];
         } catch (error) {
-            this.utils.handleErrors(error)
+            this.utils.handleErrors(error);
         }
         
     };
 
     updateTasksFile() {
-        fs.writeFileSync(this.taskPath, JSON.stringify(this.taskList))
+        fs.writeFileSync(this.taskPath, JSON.stringify(this.taskList));
     }
 
     createTask(taskDescription) {
@@ -45,27 +45,48 @@ class Tasks {
             updatedAt : null
             }
         }
-        this.taskList.push(newTask)
-        this.updateTasksFile()
-        console.log(`Task added successfully (ID: ${newID})`)
+        this.taskList.push(newTask);
+        this.updateTasksFile();
+        console.log(`Task added successfully (ID: ${newID})`);
     };
 
     updateTask(taskID, taskDescription) {
         for (let item of this.taskList) {
             if (taskID == item.id) {
-                item.task.description = taskDescription
-                item.task.updatedAt = new Date().toLocaleString()
+                item.task.description = taskDescription;
+                item.task.updatedAt = new Date().toLocaleString();
             };
             break;
         }
-        this.updateTasksFile()
-    }
+        this.updateTasksFile();
+    };
 
     deleteTask(taskID) {
         let newTaskList = this.taskList.filter(task => task.id !== taskID);
         this.taskList = newTaskList;
         this.updateTasksFile();
-    }
+    };
+
+    markTask(taskID, status) {
+        for (let item of this.taskList ){
+            if (taskID == item.id) {
+                switch(status){
+                    case "todo":
+                        item.task.status = "todo";
+                        break;
+                    case "started":
+                        item.task.status = "started";
+                        break;
+                    case "done":
+                        item.task.status = "done";
+                        break;
+                    default: throw new Error("Mark status is one of [todo | started | done]")
+                }
+                item.task.updatedAt = new Date().toLocaleString()
+            };
+        };
+        this.updateTasksFile()
+    };
 };
 
 
@@ -96,6 +117,6 @@ class Utils {
     };
 }
 
-export default Tasks
+export default Tasks;
 
 
