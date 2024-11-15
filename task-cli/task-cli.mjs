@@ -62,12 +62,14 @@ class Tasks {
       break;
     }
     this.updateTasksFile();
+    console.log(`Task updated successfully (ID: ${taskID})`);
   }
 
   deleteTask(taskID) {
-    let newTaskList = this.taskList.filter((task) => task.id !== taskID);
+    let newTaskList = this.taskList.filter((item) => item.id != taskID);
     this.taskList = newTaskList;
     this.updateTasksFile();
+    console.log(`Task deleted successfully (ID: ${taskID})`);
   }
 
   markTask(taskID, status) {
@@ -92,20 +94,24 @@ class Tasks {
     this.updateTasksFile();
   }
 
-  listTasks(status=null) {
+  listTasks(status = null) {
     if (!status) {
-        for (let item of this.taskList) {
-            console.log(`${green}${item.task.description}\n${yellow}Status: ${item.task.status}\n${reset}created ${item.task.createdAt} | updated ${item.task.updatedAt}\n`)
-        }
+      for (let item of this.taskList) {
+        console.log(
+          `${green}${item.task.description}\n${yellow}Status: ${item.task.status}\nTask ID: ${item.id}\n${reset}created ${item.task.createdAt} | updated ${item.task.updatedAt}\n`
+        );
+      }
     } else {
-        console.log(`${status} tasks:`)
-        for (let item of this.taskList) {
+      console.log(`${status} tasks:`);
+      for (let item of this.taskList) {
         if (item.task.status == status) {
-            console.log(`Task: ${green}${item.task.description}\n${yellow}Task ID: ${item.id}${reset}\ncreated ${item.task.createdAt} updated ${item.task.updatedAt}\n`)
-            }
+          console.log(
+            `Task: ${green}${item.task.description}\n${yellow}Task ID: ${item.id}${reset}\ncreated ${item.task.createdAt} updated ${item.task.updatedAt}\n`
+          );
         }
-        }
+      }
     }
+  }
 }
 
 class Utils {
