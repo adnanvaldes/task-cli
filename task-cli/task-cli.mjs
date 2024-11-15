@@ -1,4 +1,4 @@
-import { cwd } from "node:process";
+import { cwd, exit } from "node:process";
 import fs from "node:fs";
 
 const reset = "\x1b[0m";
@@ -37,6 +37,16 @@ class Tasks {
     fs.writeFileSync(this.taskPath, JSON.stringify(this.taskList));
   }
 
+  taskExists(taskID) {
+    for (const item of this.taskList) {
+      if (item.id == taskID) {
+        return true
+      }
+    }
+    console.log(`${red}Task not found (ID: ${taskID})`)
+    exit(1)
+  }
+
   createTask(taskDescription) {
     const newID = this.utils.getHighestID(this.taskList) + 1;
     const newTask = {
@@ -54,6 +64,7 @@ class Tasks {
   }
 
   updateTask(taskID, taskDescription) {
+    this.taskExists(taskID)
     for (let item of this.taskList) {
       if (taskID == item.id) {
         item.task.description = taskDescription;
@@ -66,6 +77,8 @@ class Tasks {
   }
 
   deleteTask(taskID) {
+    this.taskExists(taskID)
+
     let newTaskList = this.taskList.filter((item) => item.id != taskID);
     this.taskList = newTaskList;
     this.updateTasksFile();
@@ -73,6 +86,8 @@ class Tasks {
   }
 
   markTask(taskID, status) {
+    this.taskExists(taskID)
+
     for (let item of this.taskList) {
       if (taskID == item.id) {
         switch (status) {
@@ -95,14 +110,18 @@ class Tasks {
   }
 
   listTasks(status = null) {
-    if (!status) {
+        if (!status) {
       for (let item of this.taskList) {
         console.log(
           `${green}${item.task.description}\n${yellow}Status: ${item.task.status}\nTask ID: ${item.id}\n${reset}created ${item.task.createdAt} | updated ${item.task.updatedAt}\n`
         );
       }
     } else {
-      console.log(`${status} tasks:`);
+      if (!["started", "todo", "done"].includes(status)) {
+        console.log("[status] must be one of [todo | started | done]")
+        return
+      }
+      console.log(`Tasks ${status}:\n`);
       for (let item of this.taskList) {
         if (item.task.status == status) {
           console.log(
