@@ -101,7 +101,7 @@ class Tasks {
         console.log(`${status} tasks:`)
         for (let item of this.taskList) {
         if (item.task.status == status) {
-            console.log(`Task: ${green}${item.task.description}\n ${reset}created ${item.task.createdAt} updated ${item.task.updatedAt}\n`)
+            console.log(`Task: ${green}${item.task.description}\n${yellow}Task ID: ${item.id}${reset}\ncreated ${item.task.createdAt} updated ${item.task.updatedAt}\n`)
             }
         }
         }
