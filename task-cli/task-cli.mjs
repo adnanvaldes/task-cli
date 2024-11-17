@@ -91,29 +91,21 @@ class Tasks {
   }
 
   markTask(taskID, status) {
-    this.taskExists(taskID)
+    const validStatuses = Object.values(this.STATUS);
+    if (!validStatuses.includes(status)) {
+      throw new Error(`Invalid status. Use one of ${validStatuses.join(" | ")}`);
+    }
+    this.taskExists(taskID);
 
     for (let item of this.taskList) {
-      if (taskID == item.id) {
-        switch (status) {
-          case this.STATUS.TODO:
-            item.task.status = this.STATUS.TODO;
-            break;
-          case this.STATUS.IN_PROGRESS:
-            item.task.status = this.STATUS.IN_PROGRESS;
-            break;
-          case this.STATUS.DONE:
-            item.task.status = this.STATUS.DONE;
-            break;
-          default:
-            throw new Error("Mark status is one of [todo | mark-in-progress | mark-done]");
-        }
-        item.task.updatedAt = new Date().toLocaleString();
+      if (item.id == taskID) {
+        item.task.status = status
+        break
       }
     }
     this.updateTasksFile();
+    console.log(`Task ${taskID} marked as ${status}.`);
   }
-
 
   listTasks(status = null) {
     const validStatuses = ["todo", "in-progress", "done"];
