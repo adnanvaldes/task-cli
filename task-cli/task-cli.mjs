@@ -108,26 +108,27 @@ class Tasks {
     this.updateTasksFile();
   }
 
+
   listTasks(status = null) {
-      if (!status) {
-        for (let item of this.taskList) {
-        console.log(
-          `${green}${item.task.description}\n${yellow}Status: ${item.task.status}\nTask ID: ${item.id}\n${reset}created ${item.task.createdAt} | updated ${item.task.updatedAt}\n`
-        );
-      }
-    } else {
-      if (!["started", "todo", "done"].includes(status)) {
-        console.log("[status] must be one of [todo | started | done]")
-        return
-      }
-      console.log(`Tasks ${status}:\n`);
-      for (let item of this.taskList) {
-        if (item.task.status == status) {
-          console.log(
-            `Task: ${green}${item.task.description}\n${yellow}Task ID: ${item.id}${reset}\ncreated ${item.task.createdAt} updated ${item.task.updatedAt}\n`
-          );
-        }
-      }
+    const validStatuses = ["todo", "in-progress", "done"];
+    if (status && !validStatuses.includes(status)) {
+      console.log(`[status] must be one of ${validStatuses.join(" | ")}`);
+      return;
+    }
+  
+    const tasksToDisplay = status
+      ? this.taskList.filter(task => task.task.status === status)
+      : this.taskList;
+  
+    if (tasksToDisplay.length === 0) {
+      console.log("No tasks found.");
+      return;
+    }
+
+    for (let item of tasksToDisplay) {
+      console.log(
+        `Task: ${green}${item.task.description}\n${yellow}Status: ${item.task.status}\n${yellow}Task ID: ${item.id}${reset}\ncreated ${item.task.createdAt} updated ${item.task.updatedAt}\n`
+      );
     }
   }
 }
