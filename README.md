@@ -1,6 +1,6 @@
 # task-cli
 
-`task-cli` is a simple Node.js app to track tasks in the terminal.
+`task-cli` is a simple Node.js app to track tasks in the terminal, written as part of [roadmap.sh](https://roadmap.sh) backend development [projects](https://roadmap.sh/projects/task-tracker).
 
 ## Installation
 
