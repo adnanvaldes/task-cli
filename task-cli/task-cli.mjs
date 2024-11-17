@@ -87,21 +87,21 @@ class Tasks {
 
   markTask(taskID, status) {
     this.taskExists(taskID)
-
     for (let item of this.taskList) {
       if (taskID == item.id) {
         switch (status) {
           case "todo":
             item.task.status = "todo";
             break;
-          case "started":
-            item.task.status = "started";
+          case "mark-in-progress":
+            item.task.status = "in-progress";
             break;
-          case "done":
+          case "mark-done":
             item.task.status = "done";
             break;
           default:
-            throw new Error("Mark status is one of [todo | started | done]");
+            console.log(`Status: ${status}`)
+            throw new Error("Mark status is one of [todo | mark-in-progress | mark-done]");
         }
         item.task.updatedAt = new Date().toLocaleString();
       }
@@ -110,8 +110,8 @@ class Tasks {
   }
 
   listTasks(status = null) {
-        if (!status) {
-      for (let item of this.taskList) {
+      if (!status) {
+        for (let item of this.taskList) {
         console.log(
           `${green}${item.task.description}\n${yellow}Status: ${item.task.status}\nTask ID: ${item.id}\n${reset}created ${item.task.createdAt} | updated ${item.task.updatedAt}\n`
         );
