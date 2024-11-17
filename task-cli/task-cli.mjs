@@ -69,8 +69,8 @@ class Tasks {
       if (taskID == item.id) {
         item.task.description = taskDescription;
         item.task.updatedAt = new Date().toLocaleString();
+        break;
       }
-      break;
     }
     this.updateTasksFile();
     console.log(`Task updated successfully (ID: ${taskID})`);
