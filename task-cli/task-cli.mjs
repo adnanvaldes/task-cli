@@ -100,7 +100,6 @@ class Tasks {
             item.task.status = "done";
             break;
           default:
-            console.log(`Status: ${status}`)
             throw new Error("Mark status is one of [todo | mark-in-progress | mark-done]");
         }
         item.task.updatedAt = new Date().toLocaleString();
