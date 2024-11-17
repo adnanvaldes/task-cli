@@ -11,8 +11,13 @@ class Tasks {
     this.taskPath = `${cwd()}/tasks.json`;
     this.taskList = this.readTasksFile();
     this.utils = new Utils();
+    this.STATUS = {
+      TODO : "todo",
+      IN_PROGRESS: "in-progress",
+      DONE: "done"
+    };
   }
-
+  
   getOrCreateTaskList() {
     if (fs.existsSync(this.taskPath)) {
       return this.taskPath;
@@ -87,17 +92,18 @@ class Tasks {
 
   markTask(taskID, status) {
     this.taskExists(taskID)
+
     for (let item of this.taskList) {
       if (taskID == item.id) {
         switch (status) {
-          case "todo":
-            item.task.status = "todo";
+          case this.STATUS.TODO:
+            item.task.status = this.STATUS.TODO;
             break;
-          case "mark-in-progress":
-            item.task.status = "in-progress";
+          case this.STATUS.IN_PROGRESS:
+            item.task.status = this.STATUS.IN_PROGRESS;
             break;
-          case "mark-done":
-            item.task.status = "done";
+          case this.STATUS.DONE:
+            item.task.status = this.STATUS.DONE;
             break;
           default:
             throw new Error("Mark status is one of [todo | mark-in-progress | mark-done]");

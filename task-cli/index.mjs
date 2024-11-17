@@ -14,6 +14,8 @@ usage: task-cli [options] [arg1] [arg2]
     list [status]     Lists tasks. Can be filtered by status.     
 `
 
+
+
 const taskCLI = new Tasks();
 const args = argv.argv.slice([2]).map(arg => arg.toLowerCase());
 
@@ -29,10 +31,10 @@ switch (args[0]) {
     taskCLI.deleteTask(args[1]);
     break;
   case "mark-in-progress":
-    taskCLI.markTask(args[1], args[0]);
+    taskCLI.markTask(args[1], taskCLI.STATUS.IN_PROGRESS);
     break;
   case "mark-done":
-    taskCLI.markTask(args[1], args[0]);
+    taskCLI.markTask(args[1], taskCLI.STATUS.DONE);
     break;
   case "list":
     taskCLI.listTasks(args[1], args[0]);
