@@ -15,7 +15,7 @@ usage: task-cli [options] [arg1] [arg2]
 `
 
 const taskCLI = new Tasks();
-const args = argv.argv.slice([2]);
+const args = argv.argv.slice([2]).map(arg => arg.toLowerCase());
 
 
 switch (args[0]) {
